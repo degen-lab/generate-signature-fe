@@ -26,6 +26,15 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+input[type="text"],
+input[type="number"],
+select {
+  background-color: black;
+  border: 1px solid white;
+  border-radius: 10px;
+  padding: 1%;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
