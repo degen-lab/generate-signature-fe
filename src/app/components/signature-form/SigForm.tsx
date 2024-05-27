@@ -1,7 +1,14 @@
 "use client";
 import { Topic } from "@/app/types/types";
 import { getPoxRewardCycle, stackingClient } from "@/app/utils/stacks";
-import { testRewardCycle, TopicMapping, TopicOptions } from "@/app/utils/utils";
+import {
+  getPeriodPlaceholder,
+  getRewardCyclePlaceholder,
+  testPeriod,
+  testRewardCycle,
+  TopicMapping,
+  TopicOptions,
+} from "@/app/utils/utils";
 import {
   Button,
   Card,
@@ -21,9 +28,6 @@ const SigReqValidationSchema = (currentRewardCycle: number) =>
   Yup.object<InitialValues>().shape({
     rewardCycle: Yup.number().test("rew-cycle-test", function (value) {
       const { topic } = this.parent;
-
-      // Test the reward cycle validity based on the selected topic.
-      // If the reward cycle is not valid, return an error message.
       const [valid, message] = testRewardCycle(
         topic,
         currentRewardCycle,
@@ -36,8 +40,19 @@ const SigReqValidationSchema = (currentRewardCycle: number) =>
       .test("validate-btc", "Not a valid BTC address.", (btcAddress) =>
         validate(btcAddress)
       ),
-    maxAmount: Yup.string().required("Please specify the maximum amount."),
-    period: Yup.number().required("Please specify the period."),
+    maxAmount: Yup.string()
+      .required("Please specify the maximum amount.")
+      .max(Number.MAX_SAFE_INTEGER),
+    period: Yup.number()
+      .required("Please specify the period.")
+      .max(12, "The maximum period for stacking operations is 12.")
+      .test("period-test", function (value) {
+        const { topic } = this.parent;
+        console.log(topic);
+
+        const [valid, message] = testPeriod(topic, value);
+        return valid || this.createError({ message });
+      }),
     topic: Yup.string().required("Please select the signature topic."),
   });
 
@@ -59,7 +74,6 @@ export const SigForm = () => {
     getCurrentCycle();
   });
   const handleAddData = async (values: InitialValues) => {
-    console.log("values:::", values);
     try {
       await axios.post("http://localhost:8080/get-signature", values);
     } catch (e) {
@@ -82,7 +96,7 @@ export const SigForm = () => {
                 <CardBody className="flex flex-col p-6">
                   <Formik
                     initialValues={{
-                      rewardCycle: curRewCycle,
+                      rewardCycle: undefined,
                       poxAddress: undefined,
                       maxAmount: undefined,
                       period: undefined,
@@ -116,9 +130,10 @@ export const SigForm = () => {
                           name="rewardCycle"
                           type="number"
                           isRequired
-                          defaultValue={
-                            values.topic === "StackStx" ? curRewCycle : ""
-                          }
+                          placeholder={getRewardCyclePlaceholder(
+                            values.topic,
+                            curRewCycle
+                          )}
                           errorMessage={
                             touched.rewardCycle && errors.rewardCycle
                           }
@@ -135,7 +150,7 @@ export const SigForm = () => {
                           isInvalid={errors.poxAddress}
                         />
                         <label htmlFor="maxAmount">
-                          Maximum amount to authorize
+                          Maximum STX amount to authorize
                         </label>
                         <Field
                           as={Input}
@@ -153,6 +168,7 @@ export const SigForm = () => {
                           name="period"
                           type="number"
                           isRequired
+                          placeholder={getPeriodPlaceholder(values.topic)}
                           errorMessage={touched.period && errors.period}
                           isInvalid={errors.period}
                         />
