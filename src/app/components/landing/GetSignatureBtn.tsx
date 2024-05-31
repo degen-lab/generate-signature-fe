@@ -6,11 +6,5 @@ export const GetSignatureBtn = () => {
   const onClickButton = () => {
     router.push("/signature");
   };
-  return (
-    <>
-      <Button color="success" onClick={onClickButton}>
-        Get Your Stacking Signature
-      </Button>
-    </>
-  );
+  return <Button onClick={onClickButton}>Get Your Stacking Signature</Button>;
 };

@@ -35,6 +35,15 @@ select {
   padding: 1%;
 }
 
+textarea#signature,
+textarea#public-key {
+  background-color: black;
+  color: white;
+  border: 1px solid white;
+  border-radius: 10px;
+  padding: 1%;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

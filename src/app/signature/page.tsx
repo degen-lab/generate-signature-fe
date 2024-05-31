@@ -6,14 +6,9 @@ export default function Signature() {
   return (
     <>
       <Background />
-      {/* <div className="flex flex-row"> */}
-      {/* <div className="relative h-[100vh] flex justify-center items-center flex-col">
-          <SigInfo />
-        </div> */}
-      <div className="relative h-[100vh] flex justify-center items-center flex-col">
+      <div className="flex justify-center items-center flex-col overflow-y-scroll w-full">
         <SigForm />
       </div>
-      {/* </div> */}
     </>
   );
 }

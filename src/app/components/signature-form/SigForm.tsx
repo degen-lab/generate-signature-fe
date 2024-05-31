@@ -1,6 +1,7 @@
 "use client";
 import { Topic } from "@/app/types/types";
-import { getPoxRewardCycle, stackingClient } from "@/app/utils/stacks";
+import { SignatureResponse } from "../signature-response/SignatureResponse";
+import { getPoxRewardCycle } from "@/app/utils/stacks";
 import {
   getPeriodPlaceholder,
   getRewardCyclePlaceholder,
@@ -63,8 +64,20 @@ interface InitialValues {
   period: number | undefined;
   topic: string | undefined;
 }
+
+type SigResponse = {
+  signature: string;
+  signerPublicKey: string;
+  maxAmount: number;
+  authId: number;
+};
 export const SigForm = () => {
   const [curRewCycle, setCurRewCycle] = useState<number | undefined>(undefined);
+  const [hasSigResponse, setHasSigResponse] = useState<boolean>(false);
+  const [sigResponse, setSigResponse] = useState<SigResponse | undefined>(
+    undefined
+  );
+  const [isOpenSigModal, setIsOpenSigModal] = useState<boolean>(false);
 
   useEffect(() => {
     const getCurrentCycle = async () => {
@@ -75,124 +88,148 @@ export const SigForm = () => {
   });
   const handleAddData = async (values: InitialValues) => {
     try {
-      await axios.post("http://localhost:8080/get-signature", values);
+      const sigResponse = await axios
+        .post("http://localhost:8080/get-signature", values)
+        .then((res) => res.data);
+      console.log(sigResponse);
+      setHasSigResponse(true);
+      setSigResponse(sigResponse);
+      setIsOpenSigModal(true);
     } catch (e) {
       console.error(e);
     }
   };
   return (
     <>
+      {hasSigResponse && (
+        <div className="flex justify-center items-center">
+          <SignatureResponse
+            signature={sigResponse?.signature || ""}
+            publicKey={sigResponse?.signerPublicKey || ""}
+            maxAmount={sigResponse?.maxAmount || 0}
+            authId={sigResponse?.authId || 0}
+            isOpen={isOpenSigModal}
+            setIsOpen={setIsOpenSigModal}
+          />
+        </div>
+      )}
       {curRewCycle && (
-        <div>
-          <div className="flex min-h-screen flex-row justify-between items-center">
-            <div className="flex flex-col flex-grow bg-black opacity-75 text-center">
-              <Card className="m-10 mb-40 text-left">
-                <CardHeader className="flex">
-                  <div className="font-bold text-4xl p-4">
-                    Get Your Stacking Signature
-                  </div>
-                </CardHeader>
-                <Divider />
-                <CardBody className="flex flex-col p-6">
-                  <Formik
-                    initialValues={{
-                      rewardCycle: undefined,
-                      poxAddress: undefined,
-                      maxAmount: undefined,
-                      period: undefined,
-                      topic: "stack-stx",
-                    }}
-                    validationSchema={SigReqValidationSchema(curRewCycle)}
-                    enableReinitialize={true}
-                    onSubmit={handleAddData}
-                  >
-                    {({ values, errors, touched }) => (
-                      <Form className="flex flex-col mb-4">
-                        <label htmlFor="topic">Topic</label>
-                        <Field
-                          as="select"
-                          className="mb-5"
-                          name="topic"
-                          isRequired
-                          errorMessage={touched.topic && errors.topic}
-                          isInvalid={errors.topic}
-                        >
-                          {TopicOptions.map((option: Topic) => (
-                            <option key={option} value={TopicMapping[option]}>
-                              {TopicMapping[option]}
-                            </option>
-                          ))}
-                        </Field>
-                        <label htmlFor="rewardCycle">Reward Cycle</label>
-                        <Field
-                          as={Input}
-                          className="mb-5 w-full"
-                          name="rewardCycle"
-                          type="number"
-                          isRequired
-                          placeholder={getRewardCyclePlaceholder(
-                            values.topic,
-                            curRewCycle
-                          )}
-                          errorMessage={
-                            touched.rewardCycle && errors.rewardCycle
-                          }
-                          isInvalid={errors.rewardCycle}
-                        />
-                        <label htmlFor="poxAddress">PoX Address</label>
-                        <Field
-                          as={Input}
-                          className="mb-5 w-full"
-                          name="poxAddress"
-                          type="text"
-                          isRequired
-                          errorMessage={touched.poxAddress && errors.poxAddress}
-                          isInvalid={errors.poxAddress}
-                        />
-                        <label htmlFor="maxAmount">
-                          Maximum STX amount to authorize
-                        </label>
-                        <Field
-                          as={Input}
-                          className="mb-5 w-full"
-                          name="maxAmount"
-                          type="text"
-                          isRequired
-                          errorMessage={touched.maxAmount && errors.maxAmount}
-                          isInvalid={errors.maxAmount}
-                        />
-                        <label htmlFor="period">Period</label>
-                        <Field
-                          as={Input}
-                          className="mb-5 w-full"
-                          name="period"
-                          type="number"
-                          isRequired
-                          placeholder={getPeriodPlaceholder(values.topic)}
-                          errorMessage={touched.period && errors.period}
-                          isInvalid={errors.period}
-                        />
-                        <Button color="success" variant="ghost" type="submit">
-                          Get Signature
-                        </Button>
-                        <br />
-                        <div className="flex flex-row justify-center gap-10">
-                          <Link href="http://www.degenlab.io" target="new">
-                            How to
-                          </Link>
-                          <Link href="http://www.degenlab.io" target="new">
-                            FAQ
-                          </Link>
-                          <Link href="http://www.degenlab.io" target="new">
-                            Help
-                          </Link>
-                          <Link href="/">Home</Link>
-                        </div>
-                      </Form>
-                    )}
-                  </Formik>
-                </CardBody>
-              </Card>
+        <div className="xs:w-1000 sm:w-9/10 md:w-2/3 lg:w-1/3">
+          <div>
+            <div className="flex flex-row justify-between items-center overflow-scroll">
+              <div className="flex flex-col flex-grow bg-black opacity-75 text-center">
+                <Card className="m-10 mb-40 text-left">
+                  <CardHeader className="flex text-center justify-center">
+                    <div className="font-bold text-3xl p-2">
+                      Get Your Ӿ Stacking Signature
+                    </div>
+                  </CardHeader>
+                  <Divider />
+                  <CardBody className="flex flex-col p-6">
+                    <Formik
+                      initialValues={{
+                        rewardCycle: undefined,
+                        poxAddress: undefined,
+                        maxAmount: undefined,
+                        period: undefined,
+                        topic: "stack-stx",
+                      }}
+                      validationSchema={SigReqValidationSchema(curRewCycle)}
+                      enableReinitialize={true}
+                      onSubmit={handleAddData}
+                    >
+                      {({ values, errors, touched }) => (
+                        <Form className="flex flex-col mb-4">
+                          <label htmlFor="topic">Topic</label>
+                          <Field
+                            as="select"
+                            className="mb-5"
+                            name="topic"
+                            isRequired
+                            errorMessage={touched.topic && errors.topic}
+                            isInvalid={errors.topic}
+                          >
+                            {TopicOptions.map((option: Topic) => (
+                              <option key={option} value={TopicMapping[option]}>
+                                {TopicMapping[option]}
+                              </option>
+                            ))}
+                          </Field>
+                          <label htmlFor="rewardCycle">Reward Cycle</label>
+                          <Field
+                            as={Input}
+                            className="mb-5 w-full"
+                            name="rewardCycle"
+                            type="number"
+                            isRequired
+                            placeholder={getRewardCyclePlaceholder(
+                              values.topic,
+                              curRewCycle
+                            )}
+                            errorMessage={
+                              touched.rewardCycle && errors.rewardCycle
+                            }
+                            isInvalid={errors.rewardCycle}
+                          />
+                          <label htmlFor="poxAddress">PoX Address</label>
+                          <Field
+                            as={Input}
+                            className="mb-5 w-full"
+                            name="poxAddress"
+                            type="text"
+                            isRequired
+                            errorMessage={
+                              touched.poxAddress && errors.poxAddress
+                            }
+                            isInvalid={errors.poxAddress}
+                          />
+                          <label htmlFor="maxAmount">
+                            Maximum STX amount to authorize
+                          </label>
+                          <Field
+                            as={Input}
+                            className="mb-5 w-full"
+                            name="maxAmount"
+                            type="text"
+                            isRequired
+                            errorMessage={touched.maxAmount && errors.maxAmount}
+                            isInvalid={errors.maxAmount}
+                          />
+                          <label htmlFor="period">Period</label>
+                          <Field
+                            as={Input}
+                            className="mb-5 w-full"
+                            name="period"
+                            type="number"
+                            isRequired
+                            placeholder={getPeriodPlaceholder(values.topic)}
+                            errorMessage={touched.period && errors.period}
+                            isInvalid={errors.period}
+                          />
+                          <Button color="success" variant="ghost" type="submit">
+                            {hasSigResponse
+                              ? "Regenerate"
+                              : "Generate Signature"}
+                          </Button>
+                          <br />
+                          <div className="flex flex-row justify-center gap-10">
+                            <Link href="http://www.degenlab.io" target="new">
+                              How to
+                            </Link>
+                            <Link href="http://www.degenlab.io" target="new">
+                              FAQ
+                            </Link>
+                            <Link href="http://www.degenlab.io" target="new">
+                              Help
+                            </Link>
+                            <Link href="/">Home</Link>
+                          </div>
+                        </Form>
+                      )}
+                    </Formik>
+                  </CardBody>
+                </Card>
+              </div>
             </div>
           </div>
         </div>
