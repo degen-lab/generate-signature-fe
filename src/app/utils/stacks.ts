@@ -2,7 +2,7 @@ import { StacksTestnet, StacksMainnet } from "@stacks/network";
 import { StackingClient } from "@stacks/stacking";
 
 // for mainnet: const network = new StacksMainnet();
-const network = process.env.NEXT_PUBLIC_NETWORK;
+export const network = process.env.NEXT_PUBLIC_NETWORK;
 const stacksNetwork =
   network?.toLowerCase() === "testnet"
     ? new StacksTestnet()

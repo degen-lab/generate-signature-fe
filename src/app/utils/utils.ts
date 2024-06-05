@@ -1,6 +1,30 @@
 import { Topic } from "../types/types";
 
 // Util data structures for the signature request form.
+export const PeriodInfoMessages: Record<string, string> = {
+  "stack-stx":
+    " the period refers to the `lock-period` argument in the PoX-4 function",
+  "stack-extend":
+    " the period refers to the `extend-count` argument in the PoX-4 function",
+  "stack-increase":
+    " the period should be equal to the PoX-4 stacking state lock period",
+  "stack-aggregation-commit": " the period is 1",
+  "stack-aggregation-increase": " the period is 1",
+};
+
+export const RewCycleInfoMessages: Record<string, string> = {
+  "stack-stx":
+    " it refers to the reward cycle where the transaction is confirmed",
+  "stack-extend":
+    " it refers to the reward cycle where the transaction is confirmed",
+  "stack-increase":
+    " it refers to the reward cycle where the transaction is confirmed",
+  "stack-aggregation-commit":
+    " this refers to the reward cycle argument in the PoX-4 function",
+  "stack-aggregation-increase":
+    " this refers to the reward cycle argument in the PoX-4 function",
+};
+
 export const TopicOptions: Topic[] = [
   "StackStx",
   "StackExtend",
@@ -20,6 +44,8 @@ export const TopicMapping: Record<Topic, string> = {
 export const SigFormErrorMessages = {
   EmptyRewardCycle: "Please add the reward cycle.",
   PastRewCycle: "Past reward cycles are not permitted.",
+  RewCycleGreaterThanCurrent: (currentRewardCycle: number) =>
+    `The reward cycle is greater than the current one (${currentRewardCycle}).`,
   AggFutureCycle: "For the selected topic you must insert a future cycle.",
   WrongTopic: "Please select a valid topic.",
   EmptyPeriod: "Please add the period.",
@@ -70,6 +96,11 @@ export const testRewardCycle = (
         return [false, SigFormErrorMessages.EmptyRewardCycle];
       if (selectedRewardCycle < currentRewardCycle)
         return [false, SigFormErrorMessages.PastRewCycle];
+      if (selectedRewardCycle > currentRewardCycle)
+        return [
+          false,
+          SigFormErrorMessages.RewCycleGreaterThanCurrent(currentRewardCycle),
+        ];
       return [true, "OK"];
     },
     [TopicMapping.StackExtend]: (
@@ -79,9 +110,27 @@ export const testRewardCycle = (
         return [false, SigFormErrorMessages.EmptyRewardCycle];
       if (selectedRewardCycle < currentRewardCycle)
         return [false, SigFormErrorMessages.PastRewCycle];
+      if (selectedRewardCycle > currentRewardCycle)
+        return [
+          false,
+          SigFormErrorMessages.RewCycleGreaterThanCurrent(currentRewardCycle),
+        ];
       return [true, "OK"];
     },
-    [TopicMapping.StackIncrease]: (): [boolean, string] => [true, "OK"],
+    [TopicMapping.StackIncrease]: (
+      selectedRewardCycle: number
+    ): [boolean, string] => {
+      if (!selectedRewardCycle)
+        return [false, SigFormErrorMessages.EmptyRewardCycle];
+      if (selectedRewardCycle < currentRewardCycle)
+        return [false, SigFormErrorMessages.PastRewCycle];
+      if (selectedRewardCycle > currentRewardCycle)
+        return [
+          false,
+          SigFormErrorMessages.RewCycleGreaterThanCurrent(currentRewardCycle),
+        ];
+      return [true, "OK"];
+    },
     [TopicMapping.AggCommit]: (
       selectedRewardCycle: number
     ): [boolean, string] => {
@@ -177,4 +226,9 @@ export const testPeriod = (
   }
 
   return [false, SigFormErrorMessages.WrongTopic];
+};
+
+export const isValidInteger = (str: string) => {
+  const regex = /^(0|[1-9]\d*)$/;
+  return regex.test(str);
 };

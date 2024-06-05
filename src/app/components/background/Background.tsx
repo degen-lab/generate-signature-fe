@@ -20,7 +20,7 @@ export const Background = () => {
 
   return (
     init && (
-      <div className="absolute inset-0 -z-1">
+      <div className="absolute inset-0" style={{ zIndex: -1 }}>
         <Particles
           id="tsparticles"
           options={{
@@ -60,7 +60,7 @@ export const Background = () => {
                 color: "#f7931a",
                 distance: 150,
                 enable: true,
-                opacity: 0.5,
+                opacity: 0.75,
                 width: 1,
               },
               move: {
@@ -81,7 +81,7 @@ export const Background = () => {
                 value: 150,
               },
               opacity: {
-                value: 0.5,
+                value: 0.75,
               },
               shape: {
                 type: "circle",
@@ -92,7 +92,6 @@ export const Background = () => {
             },
             detectRetina: true,
           }}
-          // loaded={particlesLoaded}
         />
       </div>
     )

@@ -1,14 +1,11 @@
 import { Background } from "../components/background/Background";
-import { SigForm } from "../components/signature-form/SigForm";
-import { SigInfo } from "../components/signature-info/SigInfo";
+import { SignaturePage } from "../components/signature/signature-page/SignaturePage";
 
 export default function Signature() {
   return (
     <>
       <Background />
-      <div className="flex justify-center items-center flex-col overflow-y-scroll w-full">
-        <SigForm />
-      </div>
+      <SignaturePage></SignaturePage>
     </>
   );
 }
