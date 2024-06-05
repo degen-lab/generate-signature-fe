@@ -1,9 +1,9 @@
 "use client";
 import {
+  Button,
   Card,
   CardBody,
   CardHeader,
-  Divider,
   Input,
   Textarea,
 } from "@nextui-org/react";
@@ -33,45 +33,44 @@ export const SignatureResponse = ({
         <CardHeader className="flex text-center justify-center">
           <div className="font-bold text-3xl p-2">Signature</div>
         </CardHeader>
-        <Divider />
         <CardBody>
           <div className="p-4">
             <div className="text-left">
-              <div className="font-bold">Signer Signature</div>
+              <div className="font-bold text-lg mb-4">Signer Signature</div>
               <div className="relative mb-4">
                 <Textarea isReadOnly id="signature" value={signature} />
                 <ContentCopyIcon
-                  className="absolute right-0 bottom-0 mb-4 mr-2 p-1 bg-black border rounded"
+                  className="absolute right-0 bottom-0 mb-3 mr-1 p-1 bg-black "
                   data-tip="Copy"
                   onClick={() => handleCopy(signature)}
                   cursor="pointer"
                 ></ContentCopyIcon>
               </div>
-              <div className="font-bold">Signer Public Key</div>
+              <div className="font-bold text-lg mb-4">Signer Public Key</div>
               <div className="relative mb-4">
                 <Textarea isReadOnly id="public-key" value={publicKey} />
                 <ContentCopyIcon
-                  className="absolute right-0 bottom-0 mb-4 mr-2 p-1 bg-black border rounded"
+                  className="absolute right-0 bottom-0 mb-3 mr-1 p-1 bg-black "
                   data-tip="Copy"
                   onClick={() => handleCopy(publicKey)}
                   cursor="pointer"
                 ></ContentCopyIcon>
               </div>
-              <div className="font-bold">Max Amount</div>
+              <div className="font-bold text-lg mb-4">Max Amount</div>
               <div className="relative mb-4">
                 <Input isReadOnly value={maxAmount.toString()} />
                 <ContentCopyIcon
-                  className="absolute right-0 bottom-0 mb-2 mr-2 p-1 bg-black border rounded"
+                  className="absolute right-0 bottom-0 mb-1 mr-1 p-1 bg-black"
                   data-tip="Copy"
                   onClick={() => handleCopy(maxAmount.toString())}
                   cursor="pointer"
                 ></ContentCopyIcon>
               </div>
-              <div className="font-bold">Auth ID</div>
+              <div className="font-bold text-lg mb-4">Auth ID</div>
               <div className="relative mb-4">
                 <Input isReadOnly value={authId.toString()} />
                 <ContentCopyIcon
-                  className="absolute right-0 bottom-0 mb-2 mr-2 p-1 bg-black border rounded"
+                  className="absolute right-0 bottom-0 mb-1 mr-1 p-1 bg-black"
                   data-tip="Copy"
                   onClick={() => handleCopy(authId.toString())}
                   cursor="pointer"
@@ -83,7 +82,16 @@ export const SignatureResponse = ({
 
         <div className="text-center justify-center mb-4">
           <div className="flex flex-row justify-center gap-10">
-            <div
+            <Button
+              className="rounded-md"
+              style={{
+                backgroundColor: "black",
+                color: "white",
+                border: "1px solid white",
+                maxWidth: "40%",
+                padding: "1%",
+              }}
+              disabled={signature === ""}
               onClick={() =>
                 handleCopy(
                   JSON.stringify({
@@ -96,7 +104,7 @@ export const SignatureResponse = ({
               }
             >
               Copy JSON
-            </div>
+            </Button>
           </div>
         </div>
       </Card>
