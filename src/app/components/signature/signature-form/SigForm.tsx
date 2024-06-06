@@ -83,7 +83,8 @@ export const SigForm = ({
   setSigResponse,
 }: SigFormProps) => {
   const [curRewCycle, setCurRewCycle] = useState<number | undefined>(undefined);
-  const [isOpenSigModal, setIsOpenSigModal] = useState<boolean>(false);
+  // TODO: do we want to use this anywhere?
+  // const [isOpenSigModal, setIsOpenSigModal] = useState<boolean>(false);
 
   useEffect(() => {
     const getCurrentCycle = async () => {
@@ -112,7 +113,7 @@ export const SigForm = ({
       console.log(sigResponse);
       setHasSigResponse(true);
       setSigResponse(sigResponse);
-      setIsOpenSigModal(true);
+      // setIsOpenSigModal(true);
     } catch (e) {
       console.error(e);
     }
