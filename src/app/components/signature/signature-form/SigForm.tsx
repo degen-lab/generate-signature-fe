@@ -11,6 +11,7 @@ import {
   TopicOptions,
   RewCycleInfoMessages,
   isValidInteger,
+  MaxAmountInfoMessages,
 } from "@/app/utils/utils";
 import {
   Button,
@@ -24,7 +25,6 @@ import {
 import axios from "axios";
 import validate from "bitcoin-address-validation";
 import { Field, Form, Formik } from "formik";
-import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { SigResponse } from "../signature-page/SignaturePage";
 import { userSession } from "../../connect-wallet/ConnectWallet";
@@ -73,47 +73,25 @@ interface InitialValues {
 
 interface SigFormProps {
   hasSigResponse: boolean;
+  curRewCycle: number | undefined;
   setSigResponse: React.Dispatch<React.SetStateAction<SigResponse | undefined>>;
   setHasSigResponse: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const SigForm = ({
   hasSigResponse,
+  curRewCycle,
   setHasSigResponse,
   setSigResponse,
 }: SigFormProps) => {
-  const [curRewCycle, setCurRewCycle] = useState<number | undefined>(undefined);
-  // TODO: do we want to use this anywhere?
-  // const [isOpenSigModal, setIsOpenSigModal] = useState<boolean>(false);
-
-  useEffect(() => {
-    const getCurrentCycle = async () => {
-      try {
-        const cycle = await getPoxRewardCycle();
-        setCurRewCycle(cycle);
-      } catch (error) {
-        console.error("Error fetching current cycle:", error);
-      }
-    };
-
-    getCurrentCycle();
-
-    const intervalId = setInterval(() => {
-      getCurrentCycle();
-    }, 60000);
-
-    return () => clearInterval(intervalId); // Cleanup interval on component unmount
-  }, []);
-
   const handleAddData = async (values: InitialValues) => {
     try {
       const sigResponse = await axios
-        .post("https://signature-be.degenlab.io/get-signature", values)
+        .post("http://localhost:8080/get-signature", values)
         .then((res) => res.data);
       console.log(sigResponse);
       setHasSigResponse(true);
       setSigResponse(sigResponse);
-      // setIsOpenSigModal(true);
     } catch (e) {
       console.error(e);
     }
@@ -194,6 +172,7 @@ export const SigForm = ({
                           Please insert the reward cycle for which the
                           authorization is valid. For {values.topic},
                           {RewCycleInfoMessages[values.topic || ""]}.
+                          <div> The current reward cycle is {curRewCycle}.</div>
                         </div>
                         <Field
                           as={Input}
@@ -237,7 +216,9 @@ export const SigForm = ({
                         </label>
                         <div className="text-md mb-4">
                           Please insert the maximum amount of STX you want to
-                          authorize.
+                          authorize.{" "}
+                          {values.topic === "stack-increase" &&
+                            MaxAmountInfoMessages[values.topic]}
                         </div>
                         <Field
                           as={Input}

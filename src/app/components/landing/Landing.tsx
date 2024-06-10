@@ -13,17 +13,10 @@ export const Landing = () => {
         <br />
         <div className="flex flex-row justify-center gap-10">
           <Link href="http://www.degenlab.io" target="new">
-            How to
-          </Link>
-          <Link href="http://www.degenlab.io" target="new">
-            FAQ
-          </Link>
-          <Link href="http://www.degenlab.io" target="new">
-            Help
+            Docs
           </Link>
         </div>
       </div>
-      {/* <Link href="https://x.com/DegenLabBTC">Follow us on Twitter</Link> */}
     </>
   );
 };

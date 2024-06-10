@@ -25,6 +25,11 @@ export const RewCycleInfoMessages: Record<string, string> = {
     " this refers to the reward cycle argument in the PoX-4 function",
 };
 
+export const MaxAmountInfoMessages: Record<string, string> = {
+  "stack-increase":
+    "For stack-increase, the maximum amount used for the signature should cover the total stacked amount (after the increase).",
+};
+
 export const TopicOptions: Topic[] = [
   "StackStx",
   "StackExtend",

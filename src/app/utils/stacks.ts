@@ -5,7 +5,7 @@ import { StackingClient } from "@stacks/stacking";
 export const network = process.env.NEXT_PUBLIC_NETWORK;
 const stacksNetwork =
   network?.toLowerCase() === "testnet"
-    ? new StacksTestnet()
+    ? new StacksTestnet({ url: "https://api.nakamoto.testnet.hiro.so" })
     : new StacksMainnet();
 // the stacks STX address
 const address = "ST3XKKN4RPV69NN1PHFDNX3TYKXT7XPC4N8KC1ARH";
