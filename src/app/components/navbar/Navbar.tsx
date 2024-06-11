@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+// import Link from "next/link";
 import ConnectWallet from "../connect-wallet/ConnectWallet";
 
 export const Navbar = () => {
