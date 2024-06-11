@@ -9,13 +9,13 @@ export const Navbar = () => {
       className="h-[75px] w-full flex flex-row justify-between bg-black/100 p-4 fixed"
       style={{ zIndex: 100 }}
     >
-      <Link
+      {/* <Link
         href="http://www.degenlab.io"
         target="new"
         style={{ color: "white" }}
       >
         Docs
-      </Link>
+      </Link> */}
       <ConnectWallet></ConnectWallet>
     </div>
   );

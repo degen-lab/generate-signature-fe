@@ -10,12 +10,12 @@ export const Landing = () => {
         <div className="mb-10">
           <GetSignatureBtn />
         </div>
-        <br />
+        {/* <br />
         <div className="flex flex-row justify-center gap-10">
           <Link href="http://www.degenlab.io" target="new">
             Docs
           </Link>
-        </div>
+        </div> */}
       </div>
     </>
   );
