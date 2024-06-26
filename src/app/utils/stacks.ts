@@ -3,10 +3,14 @@ import { StackingClient } from "@stacks/stacking";
 
 // for mainnet: const network = new StacksMainnet();
 export const network = process.env.NEXT_PUBLIC_NETWORK;
+
 const stacksNetwork =
-  network?.toLowerCase() === "testnet"
-    ? new StacksTestnet({ url: "https://api.nakamoto.testnet.hiro.so" })
+  network?.toLowerCase() === 'nakamoto-testnet'
+    ? new StacksTestnet({ url: 'https://api.nakamoto.testnet.hiro.so' })
+    : network?.toLowerCase() === 'testnet'
+    ? new StacksTestnet()
     : new StacksMainnet();
+
 // the stacks STX address
 const address = "ST3XKKN4RPV69NN1PHFDNX3TYKXT7XPC4N8KC1ARH";
 export const stackingClient = new StackingClient(address, stacksNetwork);
