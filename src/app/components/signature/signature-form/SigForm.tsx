@@ -12,6 +12,7 @@ import {
   RewCycleInfoMessages,
   isValidInteger,
   MaxAmountInfoMessages,
+  isMaxAmountWithinMaxAllowed,
 } from "@/app/utils/utils";
 import {
   Button,
@@ -28,6 +29,7 @@ import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { SigResponse } from "../signature-page/SignaturePage";
 import { userSession } from "../../connect-wallet/ConnectWallet";
+import { MAX_ALLOWED_STX_AMOUNT } from "@/app/utils/constants";
 
 const SigReqValidationSchema = () =>
   Yup.object<InitialValues>().shape({
@@ -49,7 +51,14 @@ const SigReqValidationSchema = () =>
       .required("Please specify the maximum STX amount.")
       .test("is-valid-number", "Invalid number", (value) => {
         return isValidInteger(value);
-      }),
+      })
+      .test(
+        "max-amount-test",
+        `Max allowed STX amount is ${MAX_ALLOWED_STX_AMOUNT}`,
+        (value) => {
+          return isMaxAmountWithinMaxAllowed(value);
+        }
+      ),
     period: Yup.number()
       .required("Please specify the period.")
       .max(12, "The maximum period for stacking operations is 12.")
