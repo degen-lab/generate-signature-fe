@@ -1,4 +1,5 @@
 import { Topic } from "../types/types";
+import { MAX_ALLOWED_STX_AMOUNT } from "./constants";
 
 // Util data structures for the signature request form.
 export const PeriodInfoMessages: Record<string, string> = {
@@ -236,4 +237,9 @@ export const testPeriod = (
 export const isValidInteger = (str: string) => {
   const regex = /^(0|[1-9]\d*)$/;
   return regex.test(str);
+};
+
+export const isMaxAmountWithinMaxAllowed = (str: string) => {
+  const parsedNumber = parseFloat(str);
+  return parsedNumber <= MAX_ALLOWED_STX_AMOUNT;
 };
