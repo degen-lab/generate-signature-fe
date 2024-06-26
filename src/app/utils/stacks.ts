@@ -5,9 +5,9 @@ import { StackingClient } from "@stacks/stacking";
 export const network = process.env.NEXT_PUBLIC_NETWORK;
 
 const stacksNetwork =
-  network?.toLowerCase() === 'nakamoto-testnet'
-    ? new StacksTestnet({ url: 'https://api.nakamoto.testnet.hiro.so' })
-    : network?.toLowerCase() === 'testnet'
+  network?.toLowerCase() === "nakamoto-testnet"
+    ? new StacksTestnet({ url: "https://api.nakamoto.testnet.hiro.so" })
+    : network?.toLowerCase() === "testnet"
     ? new StacksTestnet()
     : new StacksMainnet();
 
