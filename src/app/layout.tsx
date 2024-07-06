@@ -6,7 +6,7 @@ import { Navbar } from "./components/navbar/Navbar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Stacks Signer Tool",
+  title: "Stacks Stacking Signature Tool",
   description: "Get your stacking signature without running a signer",
 };
 
