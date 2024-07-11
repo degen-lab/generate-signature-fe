@@ -30,6 +30,7 @@ import * as Yup from "yup";
 import { SigResponse } from "../signature-page/SignaturePage";
 import { userSession } from "../../connect-wallet/ConnectWallet";
 import { MAX_ALLOWED_STX_AMOUNT } from "@/app/utils/constants";
+import CustomErrorMessage from "../CustomErrorMessage";
 
 const SigReqValidationSchema = () =>
   Yup.object<InitialValues>().shape({
@@ -114,10 +115,7 @@ export const SigForm = ({
   return (
     <>
       {curRewCycle && (
-        <div
-          className="xs:w-1/1 sm:w-9/10 md:w-2/3 lg:w-2/3"
-          style={{ backgroundColor: "transparent" }}
-        >
+        <div className="xs:w-1/1 sm:w-9/10 md:w-2/3 lg:w-2/3">
           <div className="flex flex-row justify-between items-center overflow-scroll">
             <div className="flex flex-col flex-grow text-center">
               <Card className="ml-10 mr-10 mt-10 mb-2 text-left">
@@ -152,17 +150,16 @@ export const SigForm = ({
                         >
                           What will be the topic of your signature?
                         </label>
-                        <div className="text-md mb-4">
+                        <div className="text-md mb-4 text-[#424247]">
                           The topic represents the stacking operation to be
                           authorized. Please pick the operation you want to
                           authorize from the list.
                         </div>
                         <Field
                           as="select"
-                          className="mb-5"
+                          className="mb-3"
                           name="topic"
                           isRequired
-                          errorMessage={touched.topic && errors.topic}
                           isInvalid={errors.topic}
                         >
                           {TopicOptions.map((option: Topic) => (
@@ -171,13 +168,17 @@ export const SigForm = ({
                             </option>
                           ))}
                         </Field>
+                        {touched.topic && errors.topic && (
+                          <CustomErrorMessage message={errors.topic} />
+                        )}
+
                         <label
                           htmlFor="rewardCycle"
                           className="text-2xl font-bold mb-2"
                         >
                           Reward Cycle
                         </label>
-                        <div className="text-md mb-4">
+                        <div className="text-md mb-4 text-[#424247]">
                           Please insert the reward cycle for which the
                           authorization is valid. For {values.topic},
                           {RewCycleInfoMessages[values.topic || ""]}.
@@ -185,7 +186,7 @@ export const SigForm = ({
                         </div>
                         <Field
                           as={Input}
-                          className="mb-5 w-full"
+                          className="mb-3 w-full"
                           name="rewardCycle"
                           type="number"
                           isRequired
@@ -193,37 +194,41 @@ export const SigForm = ({
                             values.topic as Topic,
                             curRewCycle
                           )}
-                          errorMessage={
-                            touched.rewardCycle && errors.rewardCycle
-                          }
                           isInvalid={errors.rewardCycle}
                         />
+                        {touched.rewardCycle && errors.rewardCycle && (
+                          <CustomErrorMessage message={errors.rewardCycle} />
+                        )}
+
                         <label
                           htmlFor="poxAddress"
                           className="text-2xl font-bold mb-2"
                         >
                           PoX Address
                         </label>
-                        <div className="text-md mb-4">
+                        <div className="text-md mb-4 text-[#424247]">
                           Please insert the Bitcoin Address you want to
                           authorize for stacking operations.
                         </div>
                         <Field
                           as={Input}
-                          className="mb-5 w-full"
+                          className="mb-3 w-full"
                           name="poxAddress"
                           type="text"
                           isRequired
-                          errorMessage={touched.poxAddress && errors.poxAddress}
                           isInvalid={errors.poxAddress}
                         />
+                        {touched.poxAddress && errors.poxAddress && (
+                          <CustomErrorMessage message={errors.poxAddress} />
+                        )}
+
                         <label
                           htmlFor="maxAmount"
                           className="text-2xl font-bold mb-2"
                         >
                           Maximum STX amount to authorize
                         </label>
-                        <div className="text-md mb-4">
+                        <div className="text-md mb-4 text-[#424247]">
                           Please insert the maximum amount of STX you want to
                           authorize.{" "}
                           {values.topic === "stack-increase" &&
@@ -231,46 +236,51 @@ export const SigForm = ({
                         </div>
                         <Field
                           as={Input}
-                          className="mb-5 w-full"
+                          className="mb-3 w-full"
                           name="maxAmount"
                           type="text"
                           isRequired
-                          errorMessage={touched.maxAmount && errors.maxAmount}
                           isInvalid={errors.maxAmount}
                         />
+                        {touched.maxAmount && errors.maxAmount && (
+                          <CustomErrorMessage message={errors.maxAmount} />
+                        )}
+
                         <label
                           htmlFor="period"
                           className="text-2xl font-bold mb-2"
                         >
                           Period
                         </label>
-                        <div className="text-md mb-4">
+                        <div className="text-md mb-4 text-[#424247]">
                           Please insert the number of reward cycles you want to
                           issue the authorization for. For {values.topic},
                           {PeriodInfoMessages[values.topic || ""]}.
                         </div>
                         <Field
                           as={Input}
-                          className="mb-5 w-full"
+                          className="mb-3 w-full"
                           name="period"
                           type="number"
                           isRequired
                           placeholder={getPeriodPlaceholder(
                             values.topic as Topic
                           )}
-                          errorMessage={touched.period && errors.period}
                           isInvalid={errors.period}
                         />
+                        {touched.period && errors.period && (
+                          <CustomErrorMessage message={errors.period} />
+                        )}
+
                         <CardFooter style={{ justifyContent: "center" }}>
                           <Button
                             type="submit"
                             className="rounded-md"
                             style={{
-                              backgroundColor: "black",
+                              backgroundColor: "#FA5512",
                               color: "white",
-                              border: "1px solid white",
                               maxWidth: "40%",
-                              padding: "1%",
+                              padding: "1.5%",
                             }}
                           >
                             {hasSigResponse

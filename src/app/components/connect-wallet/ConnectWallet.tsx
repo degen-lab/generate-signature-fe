@@ -11,7 +11,7 @@ function authenticate() {
   showConnect({
     appDetails: {
       name: "Degenlab Stacks Signer",
-      icon: window.location.origin + "/next.svg",
+      icon: window.location.origin + "/stacks-logo.png",
     },
     redirectTo: "/",
     onFinish: () => {
