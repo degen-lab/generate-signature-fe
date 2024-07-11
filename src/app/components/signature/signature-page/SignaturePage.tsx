@@ -4,12 +4,17 @@ import { useEffect, useState } from "react";
 import { SigForm } from "../signature-form/SigForm";
 import { SignatureResponse } from "../signature-response/SignatureResponse";
 import { getPoxRewardCycle } from "@/app/utils/stacks";
+import { Pox4SignatureTopic } from "@stacks/stacking";
 
 export type SigResponse = {
-  signature: string;
-  signerPublicKey: string;
-  maxAmount: number;
-  authId: number;
+  signerSignature: string;
+  signerKey: string;
+  maxAmount: string;
+  authId: string;
+  rewardCycle: number;
+  period: number;
+  method: Pox4SignatureTopic;
+  poxAddress: string;
 };
 
 export const SignaturePage = () => {
@@ -40,8 +45,11 @@ export const SignaturePage = () => {
   }, []);
 
   return (
-    <div className="flex flex-col md:flex-row overflow-y-scroll w-full md:justify-between text-white">
-      <div className="fixed text-center w-full" style={{ zIndex: "100" }}>
+    <div className="flex flex-col md:flex-row overflow-y-scroll w-full md:justify-between text-[#141416]">
+      <div
+        className="fixed text-center w-full bg-transparent text-white"
+        style={{ zIndex: "100" }}
+      >
         {copyConfirmation}
       </div>
       <SigForm
@@ -53,11 +61,17 @@ export const SignaturePage = () => {
       <SignatureResponse
         curRewCycle={curRewCycle}
         hasSigResponse={hasSigResponse}
-        signature={hasSigResponse ? sigResponse?.signature ?? "" : ""}
-        publicKey={hasSigResponse ? sigResponse?.signerPublicKey ?? "" : ""}
-        maxAmount={hasSigResponse ? sigResponse?.maxAmount ?? 0 : 0}
-        authId={hasSigResponse ? sigResponse?.authId ?? 0 : 0}
+        signerSignature={
+          hasSigResponse ? sigResponse?.signerSignature ?? "" : ""
+        }
+        signerKey={hasSigResponse ? sigResponse?.signerKey ?? "" : ""}
+        maxAmount={hasSigResponse ? sigResponse?.maxAmount ?? "" : ""}
+        authId={hasSigResponse ? sigResponse?.authId ?? "" : ""}
         setCopyConfirmation={setCopyConfirmation}
+        rewardCycle={hasSigResponse ? sigResponse?.rewardCycle ?? 0 : 0}
+        period={hasSigResponse ? sigResponse?.period ?? 0 : 0}
+        method={sigResponse?.method as Pox4SignatureTopic}
+        poxAddress={sigResponse?.poxAddress ?? ""}
       ></SignatureResponse>
     </div>
   );

@@ -9,22 +9,31 @@ import {
 } from "@nextui-org/react";
 import React from "react";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import { Pox4SignatureTopic } from "@stacks/stacking";
 
 export interface SignatureResponse {
   curRewCycle: number | undefined;
   hasSigResponse: boolean;
-  signature: string;
-  publicKey: string;
-  maxAmount: number;
-  authId: number;
+  signerSignature: string;
+  signerKey: string;
+  maxAmount: string;
+  authId: string;
+  rewardCycle: number;
+  period: number;
+  method: Pox4SignatureTopic | undefined;
+  poxAddress: string;
   setCopyConfirmation: (value: string) => void;
 }
 export const SignatureResponse = ({
   curRewCycle,
-  signature,
-  publicKey,
+  signerSignature,
+  signerKey,
   maxAmount,
   authId,
+  rewardCycle,
+  period,
+  method,
+  poxAddress,
   setCopyConfirmation,
 }: SignatureResponse) => {
   const handleCopy = (text: string, content: string) => {
@@ -45,33 +54,37 @@ export const SignatureResponse = ({
             <CardBody>
               <div className="p-4">
                 <div className="text-left">
-                  <div className="font-bold text-lg mb-4">Signer Signature</div>
-                  <div className="relative mb-4">
-                    <Textarea isReadOnly id="signature" value={signature} />
+                  <div className="font-bold text-lg mb-2">Signer Signature</div>
+                  <div className="relative mb-2">
+                    <Textarea
+                      isReadOnly
+                      id="signature"
+                      value={signerSignature}
+                    />
                     <ContentCopyIcon
-                      className="absolute right-0 bottom-0 mb-3 mr-1 p-1 bg-black "
+                      className="absolute right-0 bottom-0 mb-3 mr-1 p-1 bg-white"
                       data-tip="Copy"
-                      onClick={() => handleCopy(signature, "signature")}
+                      onClick={() => handleCopy(signerSignature, "signature")}
                       cursor="pointer"
                     ></ContentCopyIcon>
                   </div>
-                  <div className="font-bold text-lg mb-4">
+                  <div className="font-bold text-lg mb-2">
                     Signer Public Key
                   </div>
-                  <div className="relative mb-4">
-                    <Textarea isReadOnly id="public-key" value={publicKey} />
+                  <div className="relative mb-2">
+                    <Textarea isReadOnly id="public-key" value={signerKey} />
                     <ContentCopyIcon
-                      className="absolute right-0 bottom-0 mb-3 mr-1 p-1 bg-black "
+                      className="absolute right-0 bottom-0 mb-3 mr-1 p-1 bg-white"
                       data-tip="Copy"
-                      onClick={() => handleCopy(publicKey, "public key")}
+                      onClick={() => handleCopy(signerKey, "public key")}
                       cursor="pointer"
                     ></ContentCopyIcon>
                   </div>
-                  <div className="font-bold text-lg mb-4">Max Amount</div>
-                  <div className="relative mb-4">
+                  <div className="font-bold text-lg mb-2">Max Amount</div>
+                  <div className="relative mb-2">
                     <Input isReadOnly value={maxAmount.toString()} />
                     <ContentCopyIcon
-                      className="absolute right-0 bottom-0 mb-1 mr-1 p-1 bg-black"
+                      className="absolute right-0 bottom-0 mb-1 mr-1 p-1 bg-white"
                       data-tip="Copy"
                       onClick={() =>
                         handleCopy(maxAmount.toString(), "max amount")
@@ -79,11 +92,57 @@ export const SignatureResponse = ({
                       cursor="pointer"
                     ></ContentCopyIcon>
                   </div>
-                  <div className="font-bold text-lg mb-4">Auth ID</div>
-                  <div className="relative mb-4">
+                  <div className="font-bold text-lg mb-2">Reward Cycle</div>
+                  <div className="relative mb-2">
+                    <Input isReadOnly value={rewardCycle.toString()} />
+                    <ContentCopyIcon
+                      className="absolute right-0 bottom-0 mb-1 mr-1 p-1 bg-white"
+                      data-tip="Copy"
+                      onClick={() =>
+                        handleCopy(rewardCycle.toString(), "reward cycle")
+                      }
+                      cursor="pointer"
+                    ></ContentCopyIcon>
+                  </div>
+                  <div className="font-bold text-lg mb-2">Period</div>
+                  <div className="relative mb-2">
+                    <Input isReadOnly value={period.toString()} />
+                    <ContentCopyIcon
+                      className="absolute right-0 bottom-0 mb-1 mr-1 p-1 bg-white"
+                      data-tip="Copy"
+                      onClick={() => handleCopy(period.toString(), "period")}
+                      cursor="pointer"
+                    ></ContentCopyIcon>
+                  </div>
+                  <div className="font-bold text-lg mb-2">Method</div>
+                  <div className="relative mb-2">
+                    <Input isReadOnly value={method?.toString()} />
+                    <ContentCopyIcon
+                      className="absolute right-0 bottom-0 mb-1 mr-1 p-1 bg-white"
+                      data-tip="Copy"
+                      onClick={() =>
+                        handleCopy(method ? method.toString() : "", "method")
+                      }
+                      cursor="pointer"
+                    ></ContentCopyIcon>
+                  </div>
+                  <div className="font-bold text-lg mb-2">PoX Address</div>
+                  <div className="relative mb-2">
+                    <Input isReadOnly value={poxAddress.toString()} />
+                    <ContentCopyIcon
+                      className="absolute right-0 bottom-0 mb-1 mr-1 p-1 bg-white"
+                      data-tip="Copy"
+                      onClick={() =>
+                        handleCopy(poxAddress.toString(), "PoX address")
+                      }
+                      cursor="pointer"
+                    ></ContentCopyIcon>
+                  </div>
+                  <div className="font-bold text-lg mb-2">Auth ID</div>
+                  <div className="relative mb-2">
                     <Input isReadOnly value={authId.toString()} />
                     <ContentCopyIcon
-                      className="absolute right-0 bottom-0 mb-1 mr-1 p-1 bg-black"
+                      className="absolute right-0 bottom-0 mb-1 mr-1 p-1 bg-white"
                       data-tip="Copy"
                       onClick={() => handleCopy(authId.toString(), "auth ID")}
                       cursor="pointer"
@@ -98,20 +157,24 @@ export const SignatureResponse = ({
                 <Button
                   className="rounded-md"
                   style={{
-                    backgroundColor: "black",
+                    backgroundColor: "#FA5512",
                     color: "white",
                     border: "1px solid white",
                     maxWidth: "40%",
-                    padding: "1%",
+                    padding: "1.5%",
                   }}
-                  disabled={signature === ""}
+                  disabled={signerSignature === ""}
                   onClick={() =>
                     handleCopy(
                       JSON.stringify({
-                        signature,
-                        publicKey,
+                        signerSignature,
+                        signerKey,
                         maxAmount,
+                        rewardCycle,
+                        period,
+                        method,
                         authId,
+                        poxAddress,
                       }),
                       "JSON"
                     )

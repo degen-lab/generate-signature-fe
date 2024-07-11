@@ -18,28 +18,29 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
+  /* background: linear-gradient(
       to bottom,
       transparent,
       rgb(var(--background-end-rgb))
     )
-    rgb(var(--background-start-rgb));
+    rgb(var(--background-start-rgb)); */
 }
 
 input[type="text"],
 input[type="number"],
 select {
-  background-color: black;
-  border: 1px solid white;
+  background-color: white;
+  color: black;
+  border: 1px solid #9f9fa0;
   border-radius: 10px;
   padding: 1%;
 }
 
 textarea#signature,
 textarea#public-key {
-  background-color: black;
-  color: white;
-  border: 1px solid white;
+  background-color: white;
+  color: black;
+  border: 1px solid #9f9fa0;
   border-radius: 10px;
   padding: 1%;
 }
