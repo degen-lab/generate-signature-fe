@@ -79,6 +79,7 @@ interface InitialValues {
   maxAmount: string | undefined;
   period: number | undefined;
   topic: string | undefined;
+  network: "mainnet" | "testnet" | "nakamoto-testnet";
 }
 
 interface SigFormProps {
@@ -95,6 +96,7 @@ export const SigForm = ({
   setSigResponse,
 }: SigFormProps) => {
   const handleAddData = async (values: InitialValues) => {
+    values.network = "mainnet";
     try {
       const sigResponse = await axios
         .post("https://signature-be.degenlab.io/get-signature", values)
