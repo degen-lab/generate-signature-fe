@@ -139,6 +139,7 @@ export const SigForm = ({
                       maxAmount: undefined,
                       period: undefined,
                       topic: "stack-stx",
+                      network: "mainnet",
                     }}
                     validationSchema={SigReqValidationSchema}
                     enableReinitialize={true}
