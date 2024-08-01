@@ -45,7 +45,7 @@ export const SignaturePage = () => {
   }, []);
 
   return (
-    <div className="flex flex-col md:flex-row overflow-y-scroll w-full md:justify-between text-[#141416]">
+    <div className="flex flex-col md:flex-row w-full md:justify-between text-[#141416]">
       <div
         className="fixed text-center w-full bg-transparent text-white"
         style={{ zIndex: "100" }}

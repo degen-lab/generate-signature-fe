@@ -118,7 +118,7 @@ export const SigForm = ({
     <>
       {curRewCycle && (
         <div className="xs:w-1/1 sm:w-9/10 md:w-2/3 lg:w-2/3">
-          <div className="flex flex-row justify-between items-center overflow-scroll">
+          <div className="flex flex-row justify-between items-center">
             <div className="flex flex-col flex-grow text-center">
               <Card className="ml-10 mr-10 mt-10 mb-2 text-left">
                 <CardHeader className="flex text-center justify-center">
