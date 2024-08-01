@@ -2,6 +2,7 @@
 
 // import Link from "next/link";
 import ConnectWallet from "../connect-wallet/ConnectWallet";
+import { NetworkDropdown } from "./NetworkDropdown";
 
 export const Navbar = () => {
   return (
@@ -17,6 +18,7 @@ export const Navbar = () => {
         Docs
       </Link> */}
       <ConnectWallet></ConnectWallet>
+      <NetworkDropdown></NetworkDropdown>
     </div>
   );
 };

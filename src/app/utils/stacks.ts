@@ -1,21 +1,16 @@
 import { StacksTestnet, StacksMainnet } from "@stacks/network";
 import { StackingClient } from "@stacks/stacking";
+import { Network } from "../types/types";
 
-// for mainnet: const network = new StacksMainnet();
-export const network = process.env.NEXT_PUBLIC_NETWORK;
+export const getPoxRewardCycle = async (network: Network) => {
+  const stacksNetwork =
+    network?.toLowerCase() === "nakamoto-testnet"
+      ? new StacksTestnet({ url: "https://api.nakamoto.testnet.hiro.so" })
+      : network?.toLowerCase() === "testnet"
+      ? new StacksTestnet()
+      : new StacksMainnet();
+  const address = "ST3XKKN4RPV69NN1PHFDNX3TYKXT7XPC4N8KC1ARH";
+  const stackingClient = new StackingClient(address, stacksNetwork);
 
-const stacksNetwork =
-  network?.toLowerCase() === "nakamoto-testnet"
-    ? new StacksTestnet({ url: "https://api.nakamoto.testnet.hiro.so" })
-    : network?.toLowerCase() === "testnet"
-    ? new StacksTestnet()
-    : new StacksMainnet();
-
-// the stacks STX address
-const address = "ST3XKKN4RPV69NN1PHFDNX3TYKXT7XPC4N8KC1ARH";
-export const stackingClient = new StackingClient(address, stacksNetwork);
-
-export const getPoxRewardCycle = async () => {
-  console.log(network);
   return (await stackingClient.getPoxInfo()).reward_cycle_id;
 };

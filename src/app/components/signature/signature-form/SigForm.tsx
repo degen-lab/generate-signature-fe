@@ -1,6 +1,6 @@
 "use client";
-import { Topic } from "@/app/types/types";
-import { getPoxRewardCycle, network } from "@/app/utils/stacks";
+import { Network, Topic } from "@/app/types/types";
+import { getPoxRewardCycle } from "@/app/utils/stacks";
 import {
   getPeriodPlaceholder,
   getRewardCyclePlaceholder,
@@ -31,14 +31,15 @@ import { SigResponse } from "../signature-page/SignaturePage";
 import { userSession } from "../../connect-wallet/ConnectWallet";
 import { MAX_ALLOWED_STX_AMOUNT } from "@/app/utils/constants";
 import CustomErrorMessage from "../CustomErrorMessage";
+import { useNetwork } from "@/app/contexts/NetworkContext";
 
-const SigReqValidationSchema = () =>
+const SigReqValidationSchema = (network: Network) =>
   Yup.object<InitialValues>().shape({
     rewardCycle: Yup.number().test("rew-cycle-test", async function (value) {
       const { topic } = this.parent;
       const [valid, message] = testRewardCycle(
         topic,
-        await getPoxRewardCycle(),
+        await getPoxRewardCycle(network),
         value
       );
       return valid || this.createError({ message });
@@ -65,8 +66,6 @@ const SigReqValidationSchema = () =>
       .max(12, "The maximum period for stacking operations is 12.")
       .test("period-test", function (value) {
         const { topic } = this.parent;
-        console.log(topic);
-
         const [valid, message] = testPeriod(topic, value);
         return valid || this.createError({ message });
       }),
@@ -95,8 +94,8 @@ export const SigForm = ({
   setHasSigResponse,
   setSigResponse,
 }: SigFormProps) => {
+  const { network } = useNetwork();
   const handleAddData = async (values: InitialValues) => {
-    values.network = "mainnet";
     try {
       const sigResponse = await axios
         .post("https://signature-be.degenlab.io/get-signature", values)
@@ -109,11 +108,6 @@ export const SigForm = ({
     }
   };
 
-  if (userSession.isUserSignedIn()) {
-    console.log(
-      userSession.loadUserData().profile.btcAddress.p2wpkh[network ?? "testnet"]
-    );
-  }
   return (
     <>
       {curRewCycle && (
@@ -139,9 +133,9 @@ export const SigForm = ({
                       maxAmount: undefined,
                       period: undefined,
                       topic: "stack-stx",
-                      network: "mainnet",
+                      network: network,
                     }}
-                    validationSchema={SigReqValidationSchema}
+                    validationSchema={() => SigReqValidationSchema(network)}
                     enableReinitialize={true}
                     onSubmit={handleAddData}
                   >
@@ -222,7 +216,9 @@ export const SigForm = ({
                           isInvalid={errors.poxAddress}
                         />
                         {touched.poxAddress && errors.poxAddress && (
-                          <CustomErrorMessage message={errors.poxAddress} />
+                          <CustomErrorMessage
+                            message={errors.poxAddress?.toString()}
+                          />
                         )}
 
                         <label
