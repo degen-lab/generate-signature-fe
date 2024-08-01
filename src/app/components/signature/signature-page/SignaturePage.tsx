@@ -5,6 +5,7 @@ import { SigForm } from "../signature-form/SigForm";
 import { SignatureResponse } from "../signature-response/SignatureResponse";
 import { getPoxRewardCycle } from "@/app/utils/stacks";
 import { Pox4SignatureTopic } from "@stacks/stacking";
+import { useNetwork } from "@/app/contexts/NetworkContext";
 
 export type SigResponse = {
   signerSignature: string;
@@ -18,6 +19,7 @@ export type SigResponse = {
 };
 
 export const SignaturePage = () => {
+  const { network } = useNetwork();
   const [copyConfirmation, setCopyConfirmation] = useState("");
   const [sigResponse, setSigResponse] = useState<SigResponse | undefined>(
     undefined
@@ -28,7 +30,7 @@ export const SignaturePage = () => {
   useEffect(() => {
     const getCurrentCycle = async () => {
       try {
-        const cycle = await getPoxRewardCycle();
+        const cycle = await getPoxRewardCycle(network);
         setCurRewCycle(cycle);
       } catch (error) {
         console.error("Error fetching current cycle:", error);
@@ -42,7 +44,7 @@ export const SignaturePage = () => {
     }, 60000);
 
     return () => clearInterval(intervalId);
-  }, []);
+  }, [network]);
 
   return (
     <div className="flex flex-col md:flex-row w-full md:justify-between text-[#141416]">

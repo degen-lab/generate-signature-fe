@@ -45,6 +45,12 @@ textarea#public-key {
   padding: 1%;
 }
 
+.focus-visible-none:focus-visible {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

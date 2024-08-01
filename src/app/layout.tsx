@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "./components/navbar/Navbar";
+import { NetworkProvider } from "./contexts/NetworkContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,13 +18,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className} style={{ backgroundColor: "white" }}>
-        <Navbar></Navbar>
-        <div className="h-[50px] w-full"></div>
-        <div className="flex flex-column text-white w-100 items-center justify-center">
-          {children}
-        </div>
-      </body>
+      <NetworkProvider>
+        <body className={inter.className} style={{ backgroundColor: "white" }}>
+          <Navbar></Navbar>
+          <div className="h-[50px] w-full"></div>
+          <div className="flex flex-column text-white w-100 items-center justify-center">
+            {children}
+          </div>
+        </body>
+      </NetworkProvider>
     </html>
   );
 }
