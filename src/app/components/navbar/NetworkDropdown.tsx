@@ -18,7 +18,7 @@ export const NetworkDropdown = () => {
       className="rounded-lg border-2 border-gray-300 bg-white flex flex-1 outline-none focus-visible-none"
     >
       <DropdownTrigger>
-        <div>
+        <div className="text-white">
           <SelectedNetwork />
         </div>
       </DropdownTrigger>
