@@ -33,11 +33,9 @@ const ConnectWallet = () => {
     return (
       <>
         <button
-          className="Connect"
+          className="Connect text-md rounded-xl  border-1 border-default-foreground px-3 p-2"
           onClick={disconnect}
-          style={{
-            color: "white",
-          }}
+          style={{}}
         >
           Disconnect Wallet
         </button>
@@ -47,11 +45,9 @@ const ConnectWallet = () => {
 
   return (
     <button
-      className="Connect"
+      className="Connect text-md rounded-xl border-1 border-default-foreground px-3 p-2"
       onClick={authenticate}
-      style={{
-        color: "white",
-      }}
+      style={{}}
     >
       Connect Wallet
     </button>

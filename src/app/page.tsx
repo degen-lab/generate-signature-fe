@@ -2,7 +2,7 @@ import { SignaturePage } from "./components/signature/signature-page/SignaturePa
 
 export default function Home() {
   return (
-    <div className="relative h-[100vh] flex items-center flex-col">
+    <div className="relative  flex items-center flex-col">
       <SignaturePage />
     </div>
   );

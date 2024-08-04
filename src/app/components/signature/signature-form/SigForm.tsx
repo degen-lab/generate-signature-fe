@@ -147,14 +147,15 @@ export const SigForm = ({
                         >
                           What will be the topic of your signature?
                         </label>
-                        <div className="text-md mb-4 text-[#424247]">
+                        <div className="text-md mb-4 text-neutral-900 dark:text-neutral-300">
                           The topic represents the stacking operation to be
                           authorized. Please pick the operation you want to
                           authorize from the list.
                         </div>
                         <Field
                           as="select"
-                          className="mb-3"
+                          className={`mb-3 bg-default-100 text-default-900 
+                          }`}
                           name="topic"
                           isRequired
                           isInvalid={errors.topic}
@@ -175,7 +176,7 @@ export const SigForm = ({
                         >
                           Reward Cycle
                         </label>
-                        <div className="text-md mb-4 text-[#424247]">
+                        <div className="text-md mb-4 text-neutral-900 dark:text-neutral-300">
                           Please insert the reward cycle for which the
                           authorization is valid. For {values.topic},
                           {RewCycleInfoMessages[values.topic || ""]}.
@@ -183,7 +184,7 @@ export const SigForm = ({
                         </div>
                         <Field
                           as={Input}
-                          className="mb-3 w-full"
+                          className={`mb-3 w-full`}
                           name="rewardCycle"
                           type="number"
                           isRequired
@@ -203,7 +204,7 @@ export const SigForm = ({
                         >
                           PoX Address
                         </label>
-                        <div className="text-md mb-4 text-[#424247]">
+                        <div className="text-md mb-4 text-neutral-900 dark:text-neutral-300">
                           Please insert the Bitcoin Address you want to
                           authorize for stacking operations.
                         </div>
@@ -227,7 +228,7 @@ export const SigForm = ({
                         >
                           Maximum STX amount to authorize
                         </label>
-                        <div className="text-md mb-4 text-[#424247]">
+                        <div className="text-md mb-4 text-neutral-900 dark:text-neutral-300">
                           Please insert the maximum amount of STX you want to
                           authorize.{" "}
                           {values.topic === "stack-increase" &&
@@ -251,7 +252,7 @@ export const SigForm = ({
                         >
                           Period
                         </label>
-                        <div className="text-md mb-4 text-[#424247]">
+                        <div className="text-md mb-4 text-neutral-900 dark:text-neutral-300">
                           Please insert the number of reward cycles you want to
                           issue the authorization for. For {values.topic},
                           {PeriodInfoMessages[values.topic || ""]}.
