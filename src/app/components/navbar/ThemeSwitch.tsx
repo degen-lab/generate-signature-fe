@@ -6,24 +6,33 @@ import { useEffect, useState } from "react";
 
 export const ThemeSwitch = () => {
   const { theme, setTheme } = useTheme();
+  const { resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  if (!mounted) return null; // Prevent rendering until client-side mounted
+  useEffect(() => {
+    if (mounted && !theme && resolvedTheme) {
+      setTheme(resolvedTheme);
+    }
+  }, [mounted, theme, resolvedTheme, setTheme]);
+
+  if (!mounted) {
+    return null;
+  }
+
+  const isDarkMode = theme === "dark" || resolvedTheme === "dark";
 
   return (
     <Switch
-      checked={theme === "dark"}
-      size="md"
+      checked={isDarkMode}
+      size="lg"
       color="success"
       startContent={<SunIcon />}
-      endContent={theme === "dark" ? <MoonIcon /> : <SunIcon />}
-      onChange={() => setTheme(theme === "dark" ? "light" : "dark")}
-    >
-      <span className="hidden lg:inline">Dark mode</span>
-    </Switch>
+      endContent={isDarkMode ? <MoonIcon /> : <SunIcon />}
+      onChange={() => setTheme(isDarkMode ? "light" : "dark")}
+    ></Switch>
   );
 };
