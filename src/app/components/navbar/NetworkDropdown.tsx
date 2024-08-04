@@ -52,7 +52,7 @@ export const SelectedNetwork: React.FC = () => {
       `}
       style={{ cursor: "pointer" }}
     >
-      <div className="text-sm">{networkInfo[network].title}</div>
+      <div className="text-md">{networkInfo[network].title}</div>
     </div>
   );
 };

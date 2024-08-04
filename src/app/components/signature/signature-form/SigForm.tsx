@@ -32,7 +32,6 @@ import { userSession } from "../../connect-wallet/ConnectWallet";
 import { MAX_ALLOWED_STX_AMOUNT } from "@/app/utils/constants";
 import CustomErrorMessage from "../CustomErrorMessage";
 import { useNetwork } from "@/app/contexts/NetworkContext";
-import { useTheme } from "next-themes";
 
 const SigReqValidationSchema = (network: Network) =>
   Yup.object<InitialValues>().shape({
