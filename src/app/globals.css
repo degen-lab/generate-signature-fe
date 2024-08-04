@@ -29,18 +29,13 @@ body {
 input[type="text"],
 input[type="number"],
 select {
-  background-color: white;
-  color: black;
-  border: 1px solid #9f9fa0;
+  /* border: 1px solid #9f9fa0; */
   border-radius: 10px;
   padding: 1%;
 }
 
 textarea#signature,
 textarea#public-key {
-  background-color: white;
-  color: black;
-  border: 1px solid #9f9fa0;
   border-radius: 10px;
   padding: 1%;
 }

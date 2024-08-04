@@ -62,7 +62,7 @@ export const SignatureResponse = ({
                       value={signerSignature}
                     />
                     <ContentCopyIcon
-                      className="absolute right-0 bottom-0 mb-3 mr-1 p-1 bg-white"
+                      className="absolute right-0 bottom-0 mb-3 mr-1 p-1 bg-transparent"
                       data-tip="Copy"
                       onClick={() => handleCopy(signerSignature, "signature")}
                       cursor="pointer"
@@ -74,7 +74,7 @@ export const SignatureResponse = ({
                   <div className="relative mb-2">
                     <Textarea isReadOnly id="public-key" value={signerKey} />
                     <ContentCopyIcon
-                      className="absolute right-0 bottom-0 mb-3 mr-1 p-1 bg-white"
+                      className="absolute right-0 bottom-0 mb-3 mr-1 p-1 bg-transparent"
                       data-tip="Copy"
                       onClick={() => handleCopy(signerKey, "public key")}
                       cursor="pointer"
@@ -84,7 +84,7 @@ export const SignatureResponse = ({
                   <div className="relative mb-2">
                     <Input isReadOnly value={maxAmount.toString()} />
                     <ContentCopyIcon
-                      className="absolute right-0 bottom-0 mb-1 mr-1 p-1 bg-white"
+                      className="absolute right-0 bottom-0 mb-1 mr-1 p-1 bg-transparent"
                       data-tip="Copy"
                       onClick={() =>
                         handleCopy(maxAmount.toString(), "max amount")
@@ -96,7 +96,7 @@ export const SignatureResponse = ({
                   <div className="relative mb-2">
                     <Input isReadOnly value={rewardCycle.toString()} />
                     <ContentCopyIcon
-                      className="absolute right-0 bottom-0 mb-1 mr-1 p-1 bg-white"
+                      className="absolute right-0 bottom-0 mb-1 mr-1 p-1 bg-transparent"
                       data-tip="Copy"
                       onClick={() =>
                         handleCopy(rewardCycle.toString(), "reward cycle")
@@ -108,7 +108,7 @@ export const SignatureResponse = ({
                   <div className="relative mb-2">
                     <Input isReadOnly value={period.toString()} />
                     <ContentCopyIcon
-                      className="absolute right-0 bottom-0 mb-1 mr-1 p-1 bg-white"
+                      className="absolute right-0 bottom-0 mb-1 mr-1 p-1 bg-transparent"
                       data-tip="Copy"
                       onClick={() => handleCopy(period.toString(), "period")}
                       cursor="pointer"
@@ -118,7 +118,7 @@ export const SignatureResponse = ({
                   <div className="relative mb-2">
                     <Input isReadOnly value={method?.toString()} />
                     <ContentCopyIcon
-                      className="absolute right-0 bottom-0 mb-1 mr-1 p-1 bg-white"
+                      className="absolute right-0 bottom-0 mb-1 mr-1 p-1 bg-transparent"
                       data-tip="Copy"
                       onClick={() =>
                         handleCopy(method ? method.toString() : "", "method")
@@ -130,7 +130,7 @@ export const SignatureResponse = ({
                   <div className="relative mb-2">
                     <Input isReadOnly value={poxAddress.toString()} />
                     <ContentCopyIcon
-                      className="absolute right-0 bottom-0 mb-1 mr-1 p-1 bg-white"
+                      className="absolute right-0 bottom-0 mb-1 mr-1 p-1 bg-transparent"
                       data-tip="Copy"
                       onClick={() =>
                         handleCopy(poxAddress.toString(), "PoX address")
@@ -142,7 +142,7 @@ export const SignatureResponse = ({
                   <div className="relative mb-2">
                     <Input isReadOnly value={authId.toString()} />
                     <ContentCopyIcon
-                      className="absolute right-0 bottom-0 mb-1 mr-1 p-1 bg-white"
+                      className="absolute right-0 bottom-0 mb-1 mr-1 p-1 bg-transparent"
                       data-tip="Copy"
                       onClick={() => handleCopy(authId.toString(), "auth ID")}
                       cursor="pointer"
@@ -159,7 +159,7 @@ export const SignatureResponse = ({
                   style={{
                     backgroundColor: "#FA5512",
                     color: "white",
-                    border: "1px solid white",
+
                     maxWidth: "40%",
                     padding: "1.5%",
                   }}

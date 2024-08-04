@@ -3,11 +3,22 @@
 // import Link from "next/link";
 import ConnectWallet from "../connect-wallet/ConnectWallet";
 import { NetworkDropdown } from "./NetworkDropdown";
+import { ThemeSwitch } from "./ThemeSwitch";
 
 export const Navbar = () => {
   return (
     <div
-      className="h-[75px] w-full flex flex-row justify-between bg-black/100 p-4 fixed"
+      className={`
+      h-[75px] 
+      w-full 
+      flex 
+      flex-row 
+      justify-between 
+      bg-white dark:bg-black
+      text-black dark:text-white
+      p-4 
+      fixed
+    `}
       style={{ zIndex: 100 }}
     >
       {/* <Link
@@ -17,8 +28,9 @@ export const Navbar = () => {
       >
         Docs
       </Link> */}
-      <ConnectWallet></ConnectWallet>
-      <NetworkDropdown></NetworkDropdown>
+      <ConnectWallet />
+      <NetworkDropdown />
+      <ThemeSwitch />
     </div>
   );
 };

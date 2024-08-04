@@ -9,16 +9,22 @@ import {
 } from "@nextui-org/react";
 import { useNetwork } from "@/app/contexts/NetworkContext";
 import { networkInfo } from "@/app/utils/networks";
+import { useTheme } from "next-themes";
+
 export const NetworkDropdown = () => {
   const { networksList } = useNetwork();
-
+  const { resolvedTheme: theme } = useTheme();
   return (
     <Dropdown
       closeOnSelect={true}
-      className="rounded-lg border-2 border-gray-300 bg-white flex flex-1 outline-none focus-visible-none"
+      className={`rounded-lg border-2 ${
+        theme === "dark"
+          ? "border-gray-700 bg-gray-800"
+          : "border-gray-300 bg-white"
+      } flex flex-1 outline-none focus-visible-none`}
     >
       <DropdownTrigger>
-        <div className="text-white">
+        <div>
           <SelectedNetwork />
         </div>
       </DropdownTrigger>
@@ -26,7 +32,7 @@ export const NetworkDropdown = () => {
         {networksList.map((network) => (
           <DropdownItem
             key={network}
-            className="p-2 hover:bg-gray-300 rounded-xl border-none"
+            className="p-2 dark:hover:bg-gray-300 rounded-xl border-none"
             style={{ width: "100%" }}
           >
             <NetworkOption network={network} />
@@ -42,7 +48,8 @@ export const SelectedNetwork: React.FC = () => {
 
   return (
     <div
-      className="w-36 rounded-xl text-center p-2 border-2 border-white"
+      className={`w-36 rounded-xl text-center p-2 border-1 border-default-foreground
+      `}
       style={{ cursor: "pointer" }}
     >
       <div className="text-sm">{networkInfo[network].title}</div>
