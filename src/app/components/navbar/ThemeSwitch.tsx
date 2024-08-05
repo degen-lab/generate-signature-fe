@@ -23,10 +23,10 @@ export const ThemeSwitch = () => {
       size="lg"
       color="success"
       startContent={<SunIcon />}
-      endContent={isDarkMode ? <MoonIcon /> : <SunIcon />}
+      endContent={<MoonIcon />}
       onChange={() => setTheme(isDarkMode ? "light" : "dark")}
     >
-      <span className="hidden md:inline"> Dark mode</span>
+      <div className="hidden md:inline">Dark Mode</div>
     </Switch>
   );
 };

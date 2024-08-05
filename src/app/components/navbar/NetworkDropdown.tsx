@@ -48,7 +48,7 @@ export const SelectedNetwork: React.FC = () => {
 
   return (
     <div
-      className={`w-36 rounded-xl text-center p-2 border-1 border-default-foreground
+      className={`w-40 rounded-xl text-center p-2 border-1 border-default-foreground
       `}
       style={{ cursor: "pointer" }}
     >
