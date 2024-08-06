@@ -275,11 +275,10 @@ export const SigForm = ({
                         <CardFooter style={{ justifyContent: "center" }}>
                           <Button
                             type="submit"
-                            className="rounded-md"
+                            className="rounded-md max-w-full sm:max-w-[40%]"
                             style={{
                               backgroundColor: "#FA5512",
                               color: "white",
-                              maxWidth: "40%",
                               padding: "1.5%",
                             }}
                           >

@@ -5,25 +5,28 @@ import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
 export const ThemeSwitch = () => {
-  const { theme, setTheme } = useTheme();
+  const { theme, setTheme, resolvedTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  if (!mounted) return null; // Prevent rendering until client-side mounted
+  if (!mounted) {
+    return <div style={{ width: "50px", height: "30px" }} />;
+  }
 
+  const isDarkMode = theme === "dark" || resolvedTheme === "dark";
   return (
     <Switch
-      checked={theme === "dark"}
-      size="md"
+      checked={isDarkMode}
+      size="lg"
       color="success"
       startContent={<SunIcon />}
-      endContent={theme === "dark" ? <MoonIcon /> : <SunIcon />}
-      onChange={() => setTheme(theme === "dark" ? "light" : "dark")}
+      endContent={<MoonIcon />}
+      onChange={() => setTheme(isDarkMode ? "light" : "dark")}
     >
-      <span className="hidden lg:inline">Dark mode</span>
+      <div className="hidden md:inline">Dark Mode</div>
     </Switch>
   );
 };

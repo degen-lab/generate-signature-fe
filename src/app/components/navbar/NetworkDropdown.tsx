@@ -24,7 +24,7 @@ export const NetworkDropdown = () => {
       } flex flex-1 outline-none focus-visible-none`}
     >
       <DropdownTrigger>
-        <div>
+        <div className="mr-2">
           <SelectedNetwork />
         </div>
       </DropdownTrigger>
@@ -48,11 +48,13 @@ export const SelectedNetwork: React.FC = () => {
 
   return (
     <div
-      className={`w-36 rounded-xl text-center p-2 border-1 border-default-foreground
+      className={`w-40 rounded-xl text-center p-2 border-1 border-default-foreground
       `}
       style={{ cursor: "pointer" }}
     >
-      <div className="text-md">{networkInfo[network].title}</div>
+      <div className="text-xs p-1 md:text-medium md:p-0">
+        {networkInfo[network].title}
+      </div>
     </div>
   );
 };
