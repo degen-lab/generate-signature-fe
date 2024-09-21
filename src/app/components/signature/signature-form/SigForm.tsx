@@ -98,7 +98,7 @@ export const SigForm = ({
   const handleAddData = async (values: InitialValues) => {
     try {
       const sigResponse = await axios
-        .post("https://signature-be.degenlab.io/get-signature", values)
+        .post("https://services.degenlab.io/get-signature", values)
         .then((res) => res.data);
       console.log(sigResponse);
       setHasSigResponse(true);
