@@ -1,40 +1,40 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { AppConfig, showConnect, UserSession } from "@stacks/connect";
+import { connect, disconnect, isConnected } from "@stacks/connect";
 
-const appConfig = new AppConfig(["store_write", "publish_data"]);
-
-export const userSession = new UserSession({ appConfig });
-
-function authenticate() {
-  showConnect({
-    appDetails: {
-      name: "Degenlab Stacks Signer",
-      icon: window.location.origin + "/stacks-logo.png",
-    },
-    redirectTo: "/",
-    onFinish: () => {
-      window.location.reload();
-    },
-    userSession,
-  });
+async function authenticate() {
+  try {
+    await connect({
+      walletConnectProjectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID,
+      approvedProviderIds: [
+        "LeatherProvider",
+        "XverseProviders.BitcoinProvider",
+        "FordefiProviders.UtxoProvider",
+        "WalletConnectProvider",
+      ],
+    });
+    window.location.reload();
+  } catch (error) {
+    console.error("Failed to connect wallet:", error);
+  }
 }
 
-function disconnect() {
-  userSession.signUserOut("/");
+function disconnectWallet() {
+  disconnect();
+  window.location.href = "/";
 }
 
 const ConnectWallet = () => {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
 
-  if (mounted && userSession.isUserSignedIn()) {
+  if (mounted && isConnected()) {
     return (
       <>
         <button
           className="Connect text-xs mr-2 rounded-xl  border-1 border-default-foreground px-3 md:text-medium"
-          onClick={disconnect}
+          onClick={disconnectWallet}
           style={{}}
         >
           Disconnect Wallet

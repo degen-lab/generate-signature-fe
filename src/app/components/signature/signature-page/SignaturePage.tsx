@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { SigForm } from "../signature-form/SigForm";
 import { SignatureResponse } from "../signature-response/SignatureResponse";
 import { getPoxRewardCycle } from "@/app/utils/stacks";
@@ -34,24 +34,16 @@ export const SignaturePage = () => {
         setCurRewCycle(cycle);
       } catch (error) {
         console.error("Error fetching current cycle:", error);
+        setCurRewCycle(undefined);
       }
     };
 
     getCurrentCycle();
-
-    const intervalId = setInterval(() => {
-      getCurrentCycle();
-    }, 60000);
-
-    return () => clearInterval(intervalId);
-  }, [network]);
+  }, [network, curRewCycle]);
 
   return (
     <div className="flex flex-col md:flex-row w-full md:justify-between text-[#141416]">
-      <div
-        className="fixed text-center w-full bg-transparent text-black dark:text-white"
-        style={{ zIndex: "100" }}
-      >
+      <div className="fixed text-center w-full bg-transparent text-black dark:text-white z-[100]">
         {copyConfirmation}
       </div>
       <SigForm

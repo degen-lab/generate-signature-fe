@@ -7,11 +7,14 @@ import React, {
   useState,
 } from "react";
 import { Network } from "@/app/types/types";
+import { isConnected } from "@stacks/connect";
+import { getUserAddress, detectNetworkFromAddress } from "@/app/utils/wallet";
 
 interface NetworkContextInterface {
   network: Network;
   networksList: Network[];
   updateNetwork: (newNetwork: Network) => void;
+  isWalletConnected: () => boolean;
 }
 const NetworkContext = createContext<NetworkContextInterface>(
   {} as NetworkContextInterface
@@ -25,11 +28,21 @@ export const NetworkProvider: React.FC<{
   const networksList: Network[] = ["mainnet", "testnet", "nakamoto-testnet"];
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const savedNetwork = (localStorage.getItem("network") ||
-        "mainnet") as Network;
-      setNetwork(savedNetwork);
-    }
+    const updateNetworkFromWallet = () => {
+      if (typeof window !== "undefined") {
+        if (isConnected()) {
+          const userAddress = getUserAddress();
+          const detectedNetwork = detectNetworkFromAddress(userAddress);
+          setNetwork(detectedNetwork);
+          localStorage.setItem("network", detectedNetwork);
+        } else {
+          const savedNetwork = (localStorage.getItem("network") ||
+            "mainnet") as Network;
+          setNetwork(savedNetwork);
+        }
+      }
+    };
+    updateNetworkFromWallet();
   }, []);
 
   const updateNetwork = (newNetwork: Network) => {
@@ -39,8 +52,14 @@ export const NetworkProvider: React.FC<{
     }
   };
 
+  const isWalletConnected = () => {
+    return isConnected();
+  };
+
   return (
-    <NetworkContext.Provider value={{ network, networksList, updateNetwork }}>
+    <NetworkContext.Provider
+      value={{ network, networksList, updateNetwork, isWalletConnected }}
+    >
       {children}
     </NetworkContext.Provider>
   );

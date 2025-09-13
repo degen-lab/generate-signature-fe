@@ -28,10 +28,11 @@ import validate from "bitcoin-address-validation";
 import { Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { SigResponse } from "../signature-page/SignaturePage";
-import { userSession } from "../../connect-wallet/ConnectWallet";
 import { MAX_ALLOWED_STX_AMOUNT } from "@/app/utils/constants";
 import CustomErrorMessage from "../CustomErrorMessage";
 import { useNetwork } from "@/app/contexts/NetworkContext";
+import { getUserBtcAddress } from "@/app/utils/wallet";
+import { isConnected } from "@stacks/connect";
 
 const SigReqValidationSchema = (network: Network) =>
   Yup.object<InitialValues>().shape({
@@ -125,10 +126,8 @@ export const SigForm = ({
                   <Formik
                     initialValues={{
                       rewardCycle: undefined,
-                      poxAddress: userSession.isUserSignedIn()
-                        ? userSession.loadUserData().profile.btcAddress.p2wpkh[
-                            network ?? "testnet"
-                          ]
+                      poxAddress: isConnected()
+                        ? getUserBtcAddress() ?? undefined
                         : undefined,
                       maxAmount: undefined,
                       period: undefined,
