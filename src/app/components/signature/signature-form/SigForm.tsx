@@ -79,7 +79,7 @@ interface InitialValues {
   maxAmount: string | undefined;
   period: number | undefined;
   topic: string | undefined;
-  network: "mainnet" | "testnet" | "nakamoto-testnet";
+  network: "mainnet" | "testnet";
 }
 
 interface SigFormProps {

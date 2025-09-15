@@ -10,8 +10,4 @@ export const networkInfo: Record<Network, { title: string; url: string }> = {
     title: "Testnet",
     url: "api.testnet.hiro.so",
   },
-  "nakamoto-testnet": {
-    title: "Nakamoto Testnet",
-    url: "api.nakamoto.testnet.hiro.so",
-  },
 };

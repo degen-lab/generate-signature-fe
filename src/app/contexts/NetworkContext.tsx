@@ -25,7 +25,7 @@ export const NetworkProvider: React.FC<{
 }> = ({ children }) => {
   const [network, setNetwork] = useState<Network>("mainnet");
 
-  const networksList: Network[] = ["mainnet", "testnet", "nakamoto-testnet"];
+  const networksList: Network[] = ["mainnet", "testnet"];
 
   useEffect(() => {
     const updateNetworkFromWallet = () => {

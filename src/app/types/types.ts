@@ -5,4 +5,4 @@ export type Topic =
   | "AggCommit"
   | "AggIncrease";
 
-export type Network = "mainnet" | "nakamoto-testnet" | "testnet";
+export type Network = "mainnet" | "testnet";

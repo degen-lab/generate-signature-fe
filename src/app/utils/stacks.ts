@@ -4,11 +4,7 @@ import { STACKS_MAINNET, STACKS_TESTNET } from "@stacks/network";
 
 export const getPoxRewardCycle = async (network: Network) => {
   const stacksNetwork =
-    network?.toLowerCase() === "nakamoto-testnet"
-      ? STACKS_TESTNET
-      : network?.toLowerCase() === "testnet"
-      ? STACKS_TESTNET
-      : STACKS_MAINNET;
+    network?.toLowerCase() === "testnet" ? STACKS_TESTNET : STACKS_MAINNET;
 
   const address = "ST3XKKN4RPV69NN1PHFDNX3TYKXT7XPC4N8KC1ARH";
 

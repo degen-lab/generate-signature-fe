@@ -13,14 +13,14 @@ import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 
 export const NetworkDropdown = () => {
-  const { networksList, isWalletConnected } = useNetwork();
+  const { networksList, isWalletConnected, network } = useNetwork();
   const { resolvedTheme: theme } = useTheme();
   const [render, setRender] = useState(false);
 
   useEffect(() => {
     setRender(true);
   }, []);
-
+  const oppositeNetwork = network === "mainnet" ? "testnet" : "mainnet";
   if (render && isWalletConnected()) {
     return (
       <Dropdown
@@ -41,6 +41,8 @@ export const NetworkDropdown = () => {
             isReadOnly
           >
             <div className="text-sm text-default-foreground pointer-events-none">
+              If you want to change network to {`'${oppositeNetwork}'`}
+              <br />
               Change network in wallet settings and connect again
             </div>
           </DropdownItem>
