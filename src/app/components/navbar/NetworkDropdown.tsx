@@ -10,17 +10,53 @@ import {
 import { useNetwork } from "@/app/contexts/NetworkContext";
 import { networkInfo } from "@/app/utils/networks";
 import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 export const NetworkDropdown = () => {
-  const { networksList } = useNetwork();
+  const { networksList, isWalletConnected, network } = useNetwork();
   const { resolvedTheme: theme } = useTheme();
+  const [render, setRender] = useState(false);
+
+  useEffect(() => {
+    setRender(true);
+  }, []);
+  const oppositeNetwork = network === "mainnet" ? "testnet" : "mainnet";
+  if (render && isWalletConnected()) {
+    return (
+      <Dropdown
+        closeOnSelect={false}
+        className={`rounded-lg border ${
+          theme === "dark" ? "border-white/10" : "border-gray-300"
+        } flex flex-1 outline-none focus-visible-none`}
+      >
+        <DropdownTrigger>
+          <div className="mr-2">
+            <SelectedNetwork />
+          </div>
+        </DropdownTrigger>
+        <DropdownMenu className="p-1">
+          <DropdownItem
+            key="wallet-settings"
+            className="p-2 rounded-xl border-none text-center w-full cursor-default focus:bg-transparent hover:bg-transparent focus:outline-none"
+            isReadOnly
+          >
+            <div className="text-sm text-default-foreground pointer-events-none">
+              If you want to change network to {`'${oppositeNetwork}'`}
+              <br />
+              Change network in wallet settings and connect again
+            </div>
+          </DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
+    );
+  }
+
+  // If wallet is not connected, show network selector
   return (
     <Dropdown
       closeOnSelect={true}
       className={`rounded-lg border-2 ${
-        theme === "dark"
-          ? "border-gray-700 bg-gray-800"
-          : "border-gray-300 bg-white"
+        theme === "dark" ? "border-white/10" : "border-gray-300 bg-white"
       } flex flex-1 outline-none focus-visible-none`}
     >
       <DropdownTrigger>
@@ -32,8 +68,7 @@ export const NetworkDropdown = () => {
         {networksList.map((network) => (
           <DropdownItem
             key={network}
-            className="p-2 dark:hover:bg-gray-300 rounded-xl border-none"
-            style={{ width: "100%" }}
+            className="p-2 rounded-xl border-none w-full focus:outline-none focus:bg-transparent"
           >
             <NetworkOption network={network} />
           </DropdownItem>
@@ -47,11 +82,7 @@ export const SelectedNetwork: React.FC = () => {
   const { network } = useNetwork();
 
   return (
-    <div
-      className={`w-40 rounded-xl text-center p-2 border-1 border-default-foreground
-      `}
-      style={{ cursor: "pointer" }}
-    >
+    <div className="w-40 rounded-xl text-center p-2 border-1 border-default-foreground cursor-pointer">
       <div className="text-xs p-1 md:text-medium md:p-0">
         {networkInfo[network].title}
       </div>
@@ -64,8 +95,7 @@ export const NetworkOption: React.FC<{ network: Network }> = ({ network }) => {
 
   return (
     <div
-      className="text-center rounded-xl bg-[#FA5512] p-1"
-      style={{ cursor: "pointer" }}
+      className="text-center rounded-xl bg-[#FA5512] p-1 cursor-pointer"
       onClick={() => updateNetwork(network)}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
