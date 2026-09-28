@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "./components/navbar/Navbar";
+import { DeprecationBanner } from "./components/deprecation-banner/DeprecationBanner";
 import { NetworkProvider } from "./contexts/NetworkContext";
 import { ThemeProvider } from "next-themes";
 
@@ -28,6 +29,7 @@ export default function RootLayout({
           >
             <Navbar></Navbar>
             <div className="h-[100px] w-full"></div>
+            <DeprecationBanner />
             <div className="flex flex-col text-white w-full items-center justify-center">
               {children}
             </div>
